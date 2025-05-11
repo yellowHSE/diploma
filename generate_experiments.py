@@ -13,14 +13,19 @@ methods = ["mahalanobis", "padim"]
 # Chose which datasets to use in the experiment
 # Supported datasets:
 # datasets = ["softgel", "bsdata", "dagm10", "ksdd2"]
-datasets = ["ksdd2", "bsdata"]
-
+# songeun test
+#datasets = ["ksdd2", "bsdata"]
+datasets = ["ksdd2"]
 
 # Chose the percent of anomalous images inside the training set
-perc_images = [0, 1, 5, 15, 25]
+# perc_images = [0, 1, 5, 15, 25]
+# songeun test
+perc_images = [0, 5]
 
 # Number of iterations for each experiment setup
-its = list(range(5))
+# songeun  test
+#its = list(range(5))
+its = list(range(1))
 
 # Leftover from previous experiments, just leave it at -1 for now
 perc_pixels = [-1]
@@ -30,7 +35,8 @@ perc_pixels = [-1]
 # The webpage shows the currently unsused gpus
 # The experiments take quite some time, so do not use up all the gpus, but also don't run it on only one
 # (Tip: Calculon is mostly empty nowadays)
-gpus = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+#gpus = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+gpus = [0, 1, 2, 3]
 n_gpus = len(gpus)
 
 # Some methods require extra parames, which can be set up here

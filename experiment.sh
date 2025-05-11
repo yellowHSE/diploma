@@ -1,0 +1,5 @@
+CUDA_VISIBLE_DEVICES=0 python shell_runner.py --RUN_NAME=test_multiple_methods_multiple_datasets_2 --OUTPUT_PATH=/home/songeun/results --SINGLE_TEST=1  --METHOD=mahalanobis  --DATASET=ksdd2    --PERC_IMAGES=0  --PERC_PIXELS=-1 --ITERATION_IX=0 --GPU=0 &
+CUDA_VISIBLE_DEVICES=1 python shell_runner.py --RUN_NAME=test_multiple_methods_multiple_datasets_2 --OUTPUT_PATH=/home/songeun/results --SINGLE_TEST=1  --METHOD=mahalanobis  --DATASET=ksdd2    --PERC_IMAGES=5  --PERC_PIXELS=-1 --ITERATION_IX=0 --GPU=0 &
+CUDA_VISIBLE_DEVICES=2 python shell_runner.py --RUN_NAME=test_multiple_methods_multiple_datasets_2 --OUTPUT_PATH=/home/songeun/results --SINGLE_TEST=1  --METHOD=padim        --DATASET=ksdd2    --PERC_IMAGES=0  --PERC_PIXELS=-1 --ITERATION_IX=0 --GPU=0 &
+CUDA_VISIBLE_DEVICES=3 python shell_runner.py --RUN_NAME=test_multiple_methods_multiple_datasets_2 --OUTPUT_PATH=/home/songeun/results --SINGLE_TEST=1  --METHOD=padim        --DATASET=ksdd2    --PERC_IMAGES=5  --PERC_PIXELS=-1 --ITERATION_IX=0 --GPU=0 &
+wait

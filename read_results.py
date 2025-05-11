@@ -9,7 +9,8 @@ import pandas as pd
 from path_constants import RESULTS_PATH, PLOT_PATH
 
 # Selection of the experiment to visualize
-run_name = "test_experiment_paper"
+#run_name = "test_experiment_paper"
+run_name = "test_multiple_methods_multiple_datasets_2"
 
 # Which methods to visualize
 # methods = ["riad", "padim", "mahalanobis", "patchcore", "cutpaste", "draem", "cflow"]

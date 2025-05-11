@@ -154,6 +154,7 @@ def process_ds(data):
             copy2(mask_path, join(ds_path, new_mask_name))
 
         renaming.append([img_path, new_image_name])
+        print(ix)
         ix += 1
 
     ix = 20000
@@ -161,6 +162,8 @@ def process_ds(data):
         new_image_name = f"{ix}.png"
         copy2(img_path, join(ds_path, new_image_name))
         renaming.append([img_path, new_image_name])
+        print(f"Processed good image: {img_path} -> {new_image_name}")
+        print(ix)
         ix += 1
 
     pd.DataFrame(renaming, columns=["from", "to"]).to_csv(join(f"{ROOT_DF_PATH}", f"{ds_name}.csv"), index=False)

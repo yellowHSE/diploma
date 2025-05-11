@@ -26,8 +26,8 @@ class Mahalanobis(UnsupervisedMethod):
 
         model = EfficientNetModified.from_pretrained('efficientnet-b4')
         model.to(self.device)
-        if next(model.parameters()).is_cuda:
-            print(f"Model is on GPU: {self.device}")
+        if next(mode.parameters()).is_cuda:
+            print(f"Model on device: {next(model.parameters()).device}")
         else:
             print("Model is not on GPU")
         model.eval()
@@ -37,12 +37,12 @@ class Mahalanobis(UnsupervisedMethod):
         # for (x, y, mask) in tqdm(train_dataloader, '| feature extraction | train | %s |' % class_name):
         for sample_dict in train_dataloader:
             x, y = sample_dict["image"], sample_dict["label"]
-            print(f"Input tensor original device: {x.device}")
+            print(f"Input tensor device: {x.device}")
             x = x.to(self.device)
-            print(f"Input tensor moved to device: {x.device}")
+
             # model prediction
             with torch.no_grad():
-                feats = model.extract_features(x)
+                feats = model.extract_features(x.to(self.device))
             for f_idx, feat in enumerate(feats):
                 train_outputs[f_idx].append(feat)
 
@@ -74,11 +74,9 @@ def get_test_scores(dataloader, device, model, train_outputs, save_segmentation,
         x, y, name = sample_dict["image"], sample_dict["label"], sample_dict["name"]
         gt_list.extend(y.cpu().detach().numpy())
         names.extend(name)
-        x = x.to(device)
-        print(f"Test input tensor moved to device: {x.device}")
         # model prediction
         with torch.no_grad():
-            feats = model.extract_features(x)
+            feats = model.extract_features(x.to(device))
         for f_idx, feat in enumerate(feats):
             test_outputs[f_idx].append(feat)
     for t_idx, test_output in enumerate(test_outputs):
@@ -111,7 +109,6 @@ class EfficientNetModified(EfficientNet):
 
         # Stem
         x = self._swish(self._bn0(self._conv_stem(inputs)))
-        print(f"Feature after stem on device: {x.device}")
         feat_list.append(F.adaptive_avg_pool2d(x, 1))
 
         # Blocks
@@ -121,14 +118,12 @@ class EfficientNetModified(EfficientNet):
             if drop_connect_rate:
                 drop_connect_rate *= float(idx) / len(self._blocks)
             x = block(x, drop_connect_rate=drop_connect_rate)
-            print(f"Feature after block {idx} on device: {x.device}")
             if (x_prev.shape[1] != x.shape[1] and idx != 0) or idx == (len(self._blocks) - 1):
                 feat_list.append(F.adaptive_avg_pool2d(x_prev, 1))
             x_prev = x
 
         # Head
         x = self._swish(self._bn1(self._conv_head(x)))
-        print(f"Feature after head on device: {x.device}")
         feat_list.append(F.adaptive_avg_pool2d(x, 1))
 
         return feat_list
